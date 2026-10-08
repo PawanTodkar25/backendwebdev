@@ -16,7 +16,8 @@ A full-stack web application designed for organizers to manage events and handle
 
 ### Prerequisites
 * Ensure you have [Node.js](https://nodejs.org/) installed on your computer.
-
+### Password
+*admin123
 ### Installation & Setup
 1. **Download the project:**
    Clone this repository or download the ZIP file and extract it.
