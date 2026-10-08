@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Events | EventHub</title>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 style="cursor: pointer;" onclick="window.location.href='index.html'">EventHub</h1>
+        <div class="nav-links" style="display: flex; align-items: center; gap: 1rem;">
+            <a href="index.html" class="active">Manage Events</a>
+            <a href="attendees.html">Secure Directory</a>
+            
+            <!-- NAVBAR PASSWORD FIELD -->
+            <input type="password" id="admin-pwd" placeholder="Admin Password" style="padding: 0.5rem; border: 1px solid #e0e0e0; border-radius: 6px; outline: none; font-family: 'Inter', sans-serif;">
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-copy">
+            <h2>Run your events, seat by seat</h2>
+            <p>Publish an event with its venue and capacity, then allow public registrations instantly.</p>
+        </div>
+        <div class="hero-ticket">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="8" y="24" width="84" height="52" rx="10" fill="#1d2340"/>
+                <circle cx="50" cy="24" r="9" fill="#fcf8ef"/>
+                <circle cx="50" cy="76" r="9" fill="#fcf8ef"/>
+                <line x1="50" y1="38" x2="50" y2="62" stroke="#fcf8ef" stroke-width="2" stroke-dasharray="4 5"/>
+                <circle cx="29" cy="50" r="5" fill="#f5a623"/>
+            </svg>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <!-- Left Column (Both Forms) -->
+        <div style="display: flex; flex-direction: column; gap: 1.75rem;">
+            <section class="card">
+                <h2 class="card-header">Create new event</h2>
+                <form id="event-form">
+                    <label class="field"><span>Event name</span>
+                        <input type="text" id="e-name" placeholder="e.g. Annual Tech Meetup" required></label>
+                    <label class="field"><span>Date</span>
+                        <input type="date" id="e-date" required></label>
+                    <label class="field"><span>Venue</span>
+                        <input type="text" id="e-venue" placeholder="e.g. Main Auditorium" required></label>
+                    <label class="field"><span>Maximum capacity</span>
+                        <input type="number" id="e-capacity" placeholder="e.g. 150" min="1" required></label>
+                    <button type="submit">Publish event</button>
+                </form>
+                <div id="event-message" class="message" role="status" aria-live="polite"></div>
+            </section>
+
+            <section class="card">
+                <h2 class="card-header">Register attendee</h2>
+                <form id="attendee-form">
+                    <label class="field"><span>Event</span>
+                        <select id="a-event" required>
+                            <option value="" disabled selected>Loading events...</option>
+                        </select></label>
+                    <label class="field"><span>Full name</span>
+                        <input type="text" id="a-name" placeholder="e.g. Priya Sharma" required></label>
+                    <label class="field"><span>Email address</span>
+                        <input type="email" id="a-email" placeholder="e.g. priya@example.com" required></label>
+                    <label class="field"><span>Ticket tier</span>
+                        <select id="a-ticket" required>
+                            <option value="" disabled selected>Select ticket tier</option>
+                            <option value="Standard">Standard</option>
+                            <option value="VIP">VIP</option>
+                            <option value="Early Bird">Early Bird</option>
+                        </select></label>
+                    <button type="submit">Register attendee</button>
+                </form>
+                <div id="attendee-message" class="message" role="status" aria-live="polite"></div>
+            </section>
+        </div>
+
+        <!-- Right Column (Event List) -->
+        <div style="display: flex; flex-direction: column; gap: 1.75rem;">
+            <section class="card">
+                <h2 class="card-header">Upcoming events <span class="count" id="events-count">0</span></h2>
+                <div id="events-list" class="ticket-list"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">&copy; EventHub. Event management made simple.</footer>
+    
+    <!-- MEMORY SCRIPT: Syncs the password across pages -->
+    <script>
+        const pwdInput = document.getElementById('admin-pwd');
+        const savedPwd = sessionStorage.getItem('adminPassword');
+        if (savedPwd) pwdInput.value = savedPwd;
+        
+        pwdInput.addEventListener('input', (e) => {
+            sessionStorage.setItem('adminPassword', e.target.value);
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

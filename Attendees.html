@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Secure Directory | EventHub</title>
+    
+    <!-- 1. STRICT GATEKEEPER SCRIPT -->
+    <script>
+        const savedPwd = sessionStorage.getItem('adminPassword');
+        if (savedPwd !== "admin123") {
+            const enteredPwd = prompt("Secure Area: Enter admin password to view the directory (Hint: admin123):");
+            if (enteredPwd === "admin123") {
+                sessionStorage.setItem('adminPassword', enteredPwd);
+            } else {
+                alert("Incorrect password. Redirecting to Homepage.");
+                window.location.href = "index.html"; 
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 style="cursor: pointer;" onclick="window.location.href='index.html'">EventHub</h1>
+        <div class="nav-links" style="display: flex; align-items: center; gap: 1rem;">
+            <a href="index.html">Manage Events</a>
+            <a href="attendees.html" class="active">Secure Directory</a>
+            
+            <!-- 2. NAVBAR PASSWORD FIELD -->
+            <input type="password" id="admin-pwd" placeholder="Admin Password" style="padding: 0.5rem; border: 1px solid #e0e0e0; border-radius: 6px; outline: none; font-family: 'Inter', sans-serif;">
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-copy">
+            <h2>Every attendee, one tap away</h2>
+            <p>Admin Directory: Search by name or event, and safely manage records.</p>
+        </div>
+    </header>
+
+    <main class="page-container single-column">
+        <section class="card">
+            <h2 class="card-header">Attendee directory <span class="count" id="attendees-count">0</span></h2>
+            <input type="text" class="search-bar" id="search-input" placeholder="Search by name or event..." oninput="searchAttendees()" style="width: 100%; padding: 0.75rem; margin-bottom: 1.5rem; border-radius: 6px; border: 1px solid #ccc;">
+            <div id="attendees-list" class="attendee-list"></div>
+        </section>
+    </main>
+
+    <footer class="footer">&copy; EventHub. Event management made simple.</footer>
+    
+    <!-- 3. AUTO-FILL SCRIPT FOR BACKEND SYNC -->
+    <script>
+        const pwdInput = document.getElementById('admin-pwd');
+        // Auto-fill the field so script.js can read it for API delete requests
+        pwdInput.value = sessionStorage.getItem('adminPassword');
+        
+        // Update session storage if the admin manually changes it in the navbar
+        pwdInput.addEventListener('input', (e) => {
+            sessionStorage.setItem('adminPassword', e.target.value);
+        });
+    </script>
+    
+    <!-- 4. LOAD MAIN LOGIC -->
+    <script src="script.js"></script>
+</body>
+</html>
